@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Simplified Side Hustles</title>
+
+<style>
+body {
+  margin: 0;
+  background: #0d1117;
+  color: #e6edf3;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI";
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 60px 20px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 38px;
+  margin-bottom: 5px;
+}
+
+.sub {
+  text-align: center;
+  color: #8b949e;
+  margin-bottom: 30px;
+}
+
+.search {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 25px;
+  border-radius: 8px;
+  border: none;
+  background: #161b22;
+  color: white;
+  font-size: 14px;
+}
+
+/* ROW LAYOUT */
+.row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 10px;
+  background: #161b22;
+  padding: 14px 16px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  border: 1px solid #30363d;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.row:hover {
+  transform: translateY(-2px);
+  border-color: #58a6ff;
+}
+
+.header {
+  background: transparent;
+  border: none;
+  color: #8b949e;
+  font-size: 12px;
+  text-transform: uppercase;
+  cursor: default;
+}
+
+/* BADGES */
+.badge {
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.yes { background: rgba(35,134,54,0.2); color: #3fb950; }
+.no { background: rgba(218,54,51,0.2); color: #ff7b72; }
+.partial { background: rgba(210,153,34,0.2); color: #f2cc60; }
+
+.value {
+  text-align: center;
+  font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Supported Sites</h1>
+  <p class="sub">Daily automation status & estimated value</p>
+
+  <input class="search" placeholder="Search sites..." onkeyup="filterSites(this.value)">
+
+  <!-- HEADER -->
+  <div class="row header">
+    <div>Site</div>
+    <div>Login</div>
+    <div>Claim</div>
+    <div>Value</div>
+  </div>
+
+  <div id="list"></div>
+</div>
+
+<script>
+const sites = [
+  {name:"JackpotRabbit", login:true, claim:true, value:"$1.00", url:"https://jackpotrabbit.com"},
+  {name:"ClubsCasino", login:true, claim:true, value:"$1.00", url:"https://clubscasino.com"},
+  {name:"PulszBingo", login:true, claim:true, value:"$0.50", url:"https://pulszbingo.com"},
+  {name:"Moozi", login:true, claim:true, value:"$0.50", url:"https://moozi.com"},
+  {name:"Zitobox", login:true, claim:true, value:"$0.50", url:"https://zitobox.com"},
+  {name:"Punt", login:true, claim:true, value:"$1.00", url:"https://punt.com"},
+  {name:"TaoFortune", login:true, claim:true, value:"$0.50", url:"https://taofortune.com"},
+  {name:"Pulsz", login:true, claim:true, value:"$0.30", url:"https://pulsz.com"},
+  {name:"ChumbaCasino", login:true, claim:true, value:"$1.00", url:"https://chumbacasino.com"},
+  {name:"RealPrize", login:true, claim:true, value:"$0.30", url:"https://realprize.com"},
+  {name:"MyPrize", login:true, claim:true, value:"$0.30", url:"https://myprize.us"},
+  {name:"MegaBonanza", login:true, claim:true, value:"$0.50", url:"https://megabonanza.com"},
+  {name:"HelloMillions", login:true, claim:true, value:"$0.50", url:"https://hellomillions.com"},
+
+  {name:"WildWorldCasino", login:false, claim:true, value:"$0.30", url:"https://wildworldcasino.com"},
+  {name:"Stake.us", login:false, claim:true, value:"$0.30", url:"https://stake.us"},
+
+  {name:"Boss Casino", login:false, claim:false, value:"—", url:"https://theboss.casino"},
+  {name:"SpinBlitz", login:true, claim:false, value:"—", url:"https://spinblitz.com"},
+  {name:"McLuck", login:true, claim:false, value:"—", url:"https://mcluck.com"},
+  {name:"Jackpota", login:false, claim:false, value:"—", url:"https://jackpota.com"}
+];
+
+function render(list){
+  const container = document.getElementById("list");
+  container.innerHTML = "";
+
+  list.forEach(s => {
+    const row = document.createElement("div");
+    row.className = "row";
+
+    row.onclick = () => window.open(s.url, "_blank");
+
+    row.innerHTML = `
+      <div>${s.name}</div>
+      <div class="badge ${s.login ? 'yes':'no'}">${s.login ? 'Yes':'No'}</div>
+      <div class="badge ${
+        s.claim ? (s.login ? 'yes':'partial') : 'no'
+      }">${
+        s.claim ? (s.login ? 'Working':'Partial') : 'Broken'
+      }</div>
+      <div class="value">${s.value}</div>
+    `;
+
+    container.appendChild(row);
+  });
+}
+
+function filterSites(q){
+  const filtered = sites.filter(s => s.name.toLowerCase().includes(q.toLowerCase()));
+  render(filtered);
+}
+
+render(sites);
+</script>
+
+</body>
+</html>
